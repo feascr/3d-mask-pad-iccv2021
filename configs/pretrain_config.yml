@@ -1,0 +1,82 @@
+model:
+    name: identical
+    pretrained_path: null
+
+    fmap_out: False
+    fmap_out_params:
+        gauss_fmap: False
+        gauss_sigma: 2.5
+        gauss_threshold: 0.5
+        default_threshold: 0.5
+    
+    class_logit_out: True
+    class_logit_out_params:
+        default_threshold: 0.5
+    
+    head_drop_rate: 0.5
+
+backbone:
+    name: efficientnet
+    model_type: 'b0'
+    fmap_block_seq: ['7']
+    image_size: 380 
+    pretrained: False
+    pretrained_path: null
+    pretrained_mean: [0.5359, 0.4633, 0.4232]
+    pretrained_std: [0.2470, 0.2383, 0.2387]
+
+data_path: <data_dir>
+        
+train_data:
+    - meta_name: train
+      dataset_name: Competition
+      data_info_file: train_label.txt
+      build_dev: True
+      dev_size: 0.1
+
+preprocessor_name: CompetitionPreprocessorV3
+fuse_function: none
+use_HSV: False
+HSV_norm: same
+
+batch_size: 36
+batches_per_iteration: 2000
+num_iterations: 100
+num_workers: 10
+device: cuda
+
+optim:
+    name: Adam
+    lr: 0.005
+    weight_decay: 0.00005
+    arc_face_lr: 0.001
+
+scheduler:
+    warmup_iters: 8
+    warmup_multiplier: 1
+    cosine_t_0: 3
+    cosine_t_mult: 2
+
+fmap_loss:
+    - type: bce
+      use: False
+      coef: 0.5
+      label_smoothing_value: 0.1
+      sampler: null
+      sampler_params:
+
+logit_loss:
+    - type: bce
+      use: True
+      coef: 1.0
+      label_smoothing_value: 0.1
+      sampler: null
+      sampler_params:
+
+online_augmentations:
+  type: null
+  prob: 0.5
+  alpha: 1
+
+save_path: <save_path>
+seed: 102021
