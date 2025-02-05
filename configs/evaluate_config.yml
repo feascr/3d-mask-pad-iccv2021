@@ -1,0 +1,13 @@
+experiments:
+  - checkpoint_path: <save_path>/iteration_51.pt
+    predictions_from: fmaps
+
+num_workers: 10
+pin_memory: False
+device: cuda
+
+result_directory: <result_dir>
+data_path: <data_dir>
+info_files:
+  - val.txt
+  - test.txt

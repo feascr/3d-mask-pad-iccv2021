@@ -1,0 +1,9 @@
+numpy
+torch==1.7.1
+tqdm
+pyyaml
+addict
+timm
+albumentations
+opencv-python
+scikit-learn
